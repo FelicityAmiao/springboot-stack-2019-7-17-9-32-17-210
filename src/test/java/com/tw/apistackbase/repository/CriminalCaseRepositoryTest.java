@@ -88,6 +88,23 @@ public class CriminalCaseRepositoryTest {
 
     }
 
+    @Test
+    public void should_deleteId_when_call_delete_by_id() {
+        CriminalCase criminalCase = new CriminalCase();
+        criminalCase.setCaseName("Case");
+        criminalCase.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis());
+
+        CriminalCase criminalCase2 = new CriminalCase();
+        criminalCase2.setCaseName("Case");
+        criminalCase2.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis() + 1);
+
+        criminalCaseRepository.save(criminalCase);
+        criminalCaseRepository.save(criminalCase2);
+
+        criminalCaseRepository.deleteById(criminalCase.getId());
+
+        assertEquals(1, criminalCaseRepository.findAll().size());
+    }
 
 
 }
