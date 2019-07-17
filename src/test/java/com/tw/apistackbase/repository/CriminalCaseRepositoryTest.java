@@ -68,6 +68,26 @@ public class CriminalCaseRepositoryTest {
 
     }
 
+    @Test
+    public void should_cases_when_find_by_case_name(){
+
+        CriminalCase criminalCase = new CriminalCase();
+        criminalCase.setCaseName("Case");
+        criminalCase.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis());
+
+        CriminalCase criminalCase2 = new CriminalCase();
+        criminalCase2.setCaseName("Case");
+        criminalCase2.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis() + 1);
+
+        criminalCaseRepository.save(criminalCase);
+        criminalCaseRepository.save(criminalCase2);
+
+        List<CriminalCase> result = criminalCaseRepository.findByCaseName("Case");
+
+        assertEquals(2, result.size());
+
+    }
+
 
 
 }
