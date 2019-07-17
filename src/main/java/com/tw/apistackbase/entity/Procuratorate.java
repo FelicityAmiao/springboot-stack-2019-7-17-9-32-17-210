@@ -1,6 +1,7 @@
 package com.tw.apistackbase.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Procuratorate {
@@ -9,6 +10,9 @@ public class Procuratorate {
     private Long id;
     @Column(length = 50, nullable = false, unique = true)
     private String name;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<CriminalCase> criminalCases;
 
     public Long getId() {
         return id;

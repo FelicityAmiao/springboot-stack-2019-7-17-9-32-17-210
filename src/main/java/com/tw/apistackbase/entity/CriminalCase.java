@@ -17,6 +17,9 @@ public class CriminalCase {
     @OneToOne(cascade = CascadeType.ALL)
     private CaseInfo caseInfo;
 
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    private Procuratorate procuratorate;
+
     public Long getId() {
         return id;
     }
@@ -47,6 +50,14 @@ public class CriminalCase {
 
     public void setCaseInfo(CaseInfo caseInfo) {
         this.caseInfo = caseInfo;
+    }
+
+    public Procuratorate getProcuratorate() {
+        return procuratorate;
+    }
+
+    public void setProcuratorate(Procuratorate procuratorate) {
+        this.procuratorate = procuratorate;
     }
 
     public static String createLongStringOver260() {

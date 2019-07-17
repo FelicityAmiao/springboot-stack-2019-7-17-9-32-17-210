@@ -2,6 +2,7 @@ package com.tw.apistackbase.repository;
 
 import com.tw.apistackbase.entity.CaseInfo;
 import com.tw.apistackbase.entity.CriminalCase;
+import com.tw.apistackbase.entity.Procuratorate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,14 @@ public class CriminalCaseRepositoryTest {
     @Autowired
     private CriminalCaseRepository criminalCaseRepository;
 
+    @Autowired
+    private ProcuratorateRepository procuratorateRepository;
+
     @Test
     public void should_throw_exception_when_call_save_given_null_time() {
         CriminalCase criminalCase = new CriminalCase();
         criminalCase.setCaseName("Case1");
+        criminalCase.setProcuratorate(new Procuratorate());
         assertThrows(Exception.class, () -> criminalCaseRepository.saveAndFlush(criminalCase));
     }
 
@@ -33,10 +38,12 @@ public class CriminalCaseRepositoryTest {
     public void should_return_case_when_find_by_id(){
         CriminalCase criminalCase = new CriminalCase();
         criminalCase.setCaseName("Case2");
+        criminalCase.setProcuratorate(new Procuratorate());
         criminalCase.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis());
 
         CriminalCase criminalCase2 = new CriminalCase();
         criminalCase2.setCaseName("Case3");
+        criminalCase2.setProcuratorate(new Procuratorate());
         criminalCase2.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis());
 
         criminalCaseRepository.save(criminalCase);
@@ -53,10 +60,14 @@ public class CriminalCaseRepositoryTest {
 
         CriminalCase criminalCase = new CriminalCase();
         criminalCase.setCaseName("Case2");
+        Procuratorate procuratorate = new Procuratorate();
+        procuratorate.setName("P1 name");
+        criminalCase.setProcuratorate(procuratorate);
         criminalCase.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis());
 
         CriminalCase criminalCase2 = new CriminalCase();
         criminalCase2.setCaseName("Case3");
+        criminalCase2.setProcuratorate(procuratorate);
         criminalCase2.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis() + 1);
 
         criminalCaseRepository.save(criminalCase);
@@ -72,15 +83,21 @@ public class CriminalCaseRepositoryTest {
     @Test
     public void should_cases_when_find_by_case_name(){
 
+        Procuratorate procuratorate = new Procuratorate();
+        procuratorate.setName("P2 name");
+        procuratorateRepository.save(procuratorate);
+
         CriminalCase criminalCase = new CriminalCase();
         criminalCase.setCaseName("Case");
+        criminalCase.setProcuratorate(procuratorate);
         criminalCase.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis());
+        criminalCaseRepository.save(criminalCase);
 
         CriminalCase criminalCase2 = new CriminalCase();
         criminalCase2.setCaseName("Case");
+        criminalCase2.setProcuratorate(procuratorate);
         criminalCase2.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis() + 1);
 
-        criminalCaseRepository.save(criminalCase);
         criminalCaseRepository.save(criminalCase2);
 
         List<CriminalCase> result = criminalCaseRepository.findByCaseName("Case");
@@ -93,10 +110,14 @@ public class CriminalCaseRepositoryTest {
     public void should_deleteId_when_call_delete_by_id() {
         CriminalCase criminalCase = new CriminalCase();
         criminalCase.setCaseName("Case");
+        Procuratorate procuratorate = new Procuratorate();
+        procuratorate.setName("Pxxxx");
+        criminalCase.setProcuratorate(procuratorate);
         criminalCase.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis());
 
         CriminalCase criminalCase2 = new CriminalCase();
         criminalCase2.setCaseName("Case");
+        criminalCase2.setProcuratorate(procuratorate);
         criminalCase2.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis() + 1);
 
         criminalCaseRepository.save(criminalCase);
