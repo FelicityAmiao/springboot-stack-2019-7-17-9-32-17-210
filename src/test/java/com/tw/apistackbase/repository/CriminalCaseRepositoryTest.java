@@ -38,12 +38,14 @@ public class CriminalCaseRepositoryTest {
     public void should_return_case_when_find_by_id(){
         CriminalCase criminalCase = new CriminalCase();
         criminalCase.setCaseName("Case2");
-        criminalCase.setProcuratorate(new Procuratorate());
+        Procuratorate procuratorate = new Procuratorate();
+        procuratorate.setName("Pqqq");
+        criminalCase.setProcuratorate(procuratorate);
         criminalCase.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis());
 
         CriminalCase criminalCase2 = new CriminalCase();
         criminalCase2.setCaseName("Case3");
-        criminalCase2.setProcuratorate(new Procuratorate());
+        criminalCase2.setProcuratorate(procuratorate);
         criminalCase2.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis());
 
         criminalCaseRepository.save(criminalCase);
@@ -52,6 +54,7 @@ public class CriminalCaseRepositoryTest {
         CriminalCase result = criminalCaseRepository.findById(criminalCase.getId()).get();
 
         assertSame(criminalCase, result);
+        assertSame(procuratorate, result.getProcuratorate());
 
     }
 
@@ -76,7 +79,9 @@ public class CriminalCaseRepositoryTest {
         List<CriminalCase> result = criminalCaseRepository.findByOrderByCaseOccurrenceTimeDesc();
 
         assertEquals(criminalCase2, result.get(0));
+        assertEquals(criminalCase2.getProcuratorate(), result.get(0).getProcuratorate());
         assertEquals(criminalCase, result.get(1));
+        assertEquals(criminalCase.getProcuratorate(), result.get(1).getProcuratorate());
 
     }
 
@@ -103,6 +108,7 @@ public class CriminalCaseRepositoryTest {
         List<CriminalCase> result = criminalCaseRepository.findByCaseName("Case");
 
         assertEquals(2, result.size());
+        assertEquals("P2 name", result.get(0).getProcuratorate().getName());
 
     }
 
@@ -126,6 +132,7 @@ public class CriminalCaseRepositoryTest {
         criminalCaseRepository.deleteById(criminalCase.getId());
 
         assertEquals(1, criminalCaseRepository.findAll().size());
+        assertEquals("Pxxxx", criminalCaseRepository.findAll().get(0).getProcuratorate().getName());
     }
 
     @Test
