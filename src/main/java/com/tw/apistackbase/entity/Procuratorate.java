@@ -14,6 +14,9 @@ public class Procuratorate {
     @OneToMany(cascade = CascadeType.ALL)
     private List<CriminalCase> criminalCases;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Procurator> procurators;
+
     public Long getId() {
         return id;
     }
@@ -28,5 +31,21 @@ public class Procuratorate {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<CriminalCase> getCriminalCases() {
+        return criminalCases;
+    }
+
+    public void setCriminalCases(List<CriminalCase> criminalCases) {
+        this.criminalCases = criminalCases;
+    }
+
+    public List<Procurator> getProcurators() {
+        return procurators;
+    }
+
+    public void setProcurators(List<Procurator> procurators) {
+        this.procurators = procurators;
     }
 }
