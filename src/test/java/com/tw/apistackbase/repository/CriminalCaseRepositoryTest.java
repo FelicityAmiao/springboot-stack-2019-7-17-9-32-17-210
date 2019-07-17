@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Calendar;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
@@ -23,6 +25,25 @@ public class CriminalCaseRepositoryTest {
         CriminalCase criminalCase = new CriminalCase();
         criminalCase.setCaseName("Case1");
         assertThrows(Exception.class, () -> criminalCaseRepository.saveAndFlush(criminalCase));
+    }
+
+    @Test
+    public void should_return_case_when_find_by_id(){
+        CriminalCase criminalCase = new CriminalCase();
+        criminalCase.setCaseName("Case2");
+        criminalCase.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis());
+
+        CriminalCase criminalCase2 = new CriminalCase();
+        criminalCase2.setCaseName("Case3");
+        criminalCase2.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis());
+
+        criminalCaseRepository.save(criminalCase);
+        criminalCaseRepository.save(criminalCase2);
+
+        CriminalCase result = criminalCaseRepository.findById(criminalCase.getId()).get();
+
+        assertSame(criminalCase, result);
+
     }
 
 }
