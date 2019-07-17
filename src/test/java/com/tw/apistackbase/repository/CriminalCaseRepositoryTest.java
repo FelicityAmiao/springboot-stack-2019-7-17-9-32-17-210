@@ -1,5 +1,6 @@
 package com.tw.apistackbase.repository;
 
+import com.tw.apistackbase.entity.CaseInfo;
 import com.tw.apistackbase.entity.CriminalCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -104,6 +105,22 @@ public class CriminalCaseRepositoryTest {
         criminalCaseRepository.deleteById(criminalCase.getId());
 
         assertEquals(1, criminalCaseRepository.findAll().size());
+    }
+
+    @Test
+    public void should_cases_with_caseInfo_when_call_findByCaseId_given_id() {
+        CriminalCase criminalCase = new CriminalCase();
+        criminalCase.setCaseName("Case");
+        criminalCase.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis());
+        CaseInfo caseInfo = new CaseInfo();
+        caseInfo.setObjectiveCondition("This is objective msg");
+        caseInfo.setSubjectiveCondition("This is subjective msg");
+        criminalCase.setCaseInfo(caseInfo);
+
+        criminalCaseRepository.save(criminalCase);
+        CriminalCase criminalCase1 = criminalCaseRepository.findById(criminalCase.getId()).get();
+
+        assertEquals(caseInfo, criminalCase1.getCaseInfo());
     }
 
 
