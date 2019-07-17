@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Calendar;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,5 +46,28 @@ public class CriminalCaseRepositoryTest {
         assertSame(criminalCase, result);
 
     }
+
+    @Test
+    public void should_desc_cases_when_find_by_order_by_time(){
+
+        CriminalCase criminalCase = new CriminalCase();
+        criminalCase.setCaseName("Case2");
+        criminalCase.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis());
+
+        CriminalCase criminalCase2 = new CriminalCase();
+        criminalCase2.setCaseName("Case3");
+        criminalCase2.setCaseOccurrenceTime(Calendar.getInstance().getTimeInMillis() + 1);
+
+        criminalCaseRepository.save(criminalCase);
+        criminalCaseRepository.save(criminalCase2);
+
+        List<CriminalCase> result = criminalCaseRepository.findByOrderByCaseOccurrenceTimeDesc();
+
+        assertEquals(criminalCase2, result.get(0));
+        assertEquals(criminalCase, result.get(1));
+
+    }
+
+
 
 }
