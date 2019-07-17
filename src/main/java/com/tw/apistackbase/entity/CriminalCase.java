@@ -14,6 +14,9 @@ public class CriminalCase {
     @Column(nullable = false)
     private Long caseOccurrenceTime;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private CaseInfo caseInfo;
+
     public Long getId() {
         return id;
     }
@@ -36,6 +39,14 @@ public class CriminalCase {
 
     public void setCaseOccurrenceTime(Long caseOccurrenceTime) {
         this.caseOccurrenceTime = caseOccurrenceTime;
+    }
+
+    public CaseInfo getCaseInfo() {
+        return caseInfo;
+    }
+
+    public void setCaseInfo(CaseInfo caseInfo) {
+        this.caseInfo = caseInfo;
     }
 
     public static String createLongStringOver260() {
